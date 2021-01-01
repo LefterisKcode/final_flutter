@@ -1,0 +1,35 @@
+{
+  "activities-heart": [
+    {
+      "dateTime": "12-15",
+      "heartRate": 95
+    },
+    {
+      "dateTime": "12-16",
+      "heartRate": 99
+    },
+    {
+      "dateTime": "12-17",
+      "heartRate": 110
+    },
+    {
+      "dateTime": "12-18",
+      "heartRate":  120
+
+    },
+    {
+      "dateTime": "12-19",
+      "heartRate":  101
+
+    },
+    {
+      "dateTime": "12-20",
+      "heartRate": 105
+
+    },
+    {
+      "dateTime": "12-21",
+      "heartRate":  88
+    }
+  ]
+}

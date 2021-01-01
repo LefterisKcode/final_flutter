@@ -1,0 +1,39 @@
+{
+    "activities": [
+        {
+            "startDate": "12-15",
+            "steps": 2353,
+            "calories": 420
+        },
+        {
+            "startDate": "12-16",
+            "steps": 1681,
+            "calories": 180
+        },
+        {
+            "startDate": "12-17",
+            "steps": 2281,
+            "calories": 220
+        },
+        {
+            "startDate": "12-18",
+            "steps": 1921,
+            "calories": 390
+        },
+        {
+            "startDate": "12-19",
+            "steps": 3073,
+            "calories": 250
+        },
+        {
+            "startDate": "12-20",
+            "steps": 1921,
+            "calories": 150
+        },
+        {
+            "startDate": "12-21",
+            "steps": 2369,
+            "calories": 710
+        }
+    ]
+}

@@ -1,0 +1,32 @@
+{
+    "sleep": [
+        {
+            "dateOfSleep": 1,
+            "minutes": 120
+        },
+        {
+            "dateOfSleep": 2,
+            "minutes": 160
+        },
+        {
+            "dateOfSleep": 3,
+            "minutes": 140
+        },
+        {
+            "dateOfSleep": 4,
+            "minutes": 120
+        },
+        {
+            "dateOfSleep": 5,
+            "minutes": 180
+        },
+        {
+            "dateOfSleep": 6,
+            "minutes": 80
+        },
+        {
+            "dateOfSleep": 7,
+            "minutes": 130
+        }
+    ]
+}
