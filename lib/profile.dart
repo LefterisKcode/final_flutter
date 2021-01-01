@@ -50,7 +50,7 @@ class Profile extends StatelessWidget {
                   Icon(Icons.directions_run_rounded, color: Colors.green[600]),
               title: Text('Steps'),
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Steps1()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Steps()));
               },
             ),
             ListTile(
@@ -58,7 +58,7 @@ class Profile extends StatelessWidget {
                   color: Colors.purple[300]),
               title: Text('Sleep'),
               onTap: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context) => Sleep1()));
+               Navigator.push(context, MaterialPageRoute(builder: (context) => Sleep()));
               },
             ),
             ListTile(

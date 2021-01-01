@@ -257,7 +257,7 @@ class _HomePageState extends State<HomePage> {
             child: myCircularItems("Steps"),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Steps1()));
+                  context, MaterialPageRoute(builder: (context) => Steps()));
             },
             customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0)),
@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage> {
                 Colors.blueGrey),
             onTap: () {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => Sleep1()));
+                  context, MaterialPageRoute(builder: (context) => Sleep()));
             },
             customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0)),
@@ -330,7 +330,7 @@ class _HomePageState extends State<HomePage> {
               title: Text('Steps'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Steps1()));
+                    context, MaterialPageRoute(builder: (context) => Steps()));
               },
             ),
             ListTile(
@@ -339,7 +339,7 @@ class _HomePageState extends State<HomePage> {
               title: Text('Sleep'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Sleep1()));
+                    context, MaterialPageRoute(builder: (context) => Sleep()));
               },
             ),
             ListTile(

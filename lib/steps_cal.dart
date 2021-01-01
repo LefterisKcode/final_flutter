@@ -7,12 +7,12 @@ import 'hearts.dart';
 import 'homepage.dart';
 import 'profile.dart';
 
-class Steps1 extends StatefulWidget {
+class Steps extends StatefulWidget {
   @override
-  _StepsPageState1 createState() => _StepsPageState1();
+  _StepsPageState createState() => _StepsPageState();
 }
 
-class _StepsPageState1 extends State<Steps1> {
+class _StepsPageState extends State<Steps> {
   List<charts.Series<StepsCals, String>> stepsCData = [];
   List<StepsCals> tmp = [];
   var myStepcData;
@@ -126,7 +126,7 @@ class _StepsPageState1 extends State<Steps1> {
               title: Text('Sleep'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Sleep1()));
+                    context, MaterialPageRoute(builder: (context) => Sleep()));
               },
             ),
             ListTile(

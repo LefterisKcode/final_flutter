@@ -78,7 +78,7 @@ class _HelpPageState extends State<HelpPage> {
               title: Text('Steps'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Steps1()));
+                    context, MaterialPageRoute(builder: (context) => Steps()));
               },
             ),
             ListTile(
@@ -87,7 +87,7 @@ class _HelpPageState extends State<HelpPage> {
               title: Text('Sleep'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Sleep1()));
+                    context, MaterialPageRoute(builder: (context) => Sleep()));
               },
             ),
             ListTile(

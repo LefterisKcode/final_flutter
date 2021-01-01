@@ -105,7 +105,7 @@ class _ChartsPageState extends State<ChartsPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          Steps1())); // Για να μεταβαινει απο τις καρτελες μεσα στα κειμενα (article1,article2......)
+                          Steps())); // Για να μεταβαινει απο τις καρτελες μεσα στα κειμενα (article1,article2......)
             },
             customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0)),
@@ -118,7 +118,7 @@ class _ChartsPageState extends State<ChartsPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          Sleep1())); // Για να μεταβαινει απο τις καρτελες μεσα στα κειμενα (article1,article2......)
+                          Sleep())); // Για να μεταβαινει απο τις καρτελες μεσα στα κειμενα (article1,article2......)
             },
             customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0)),
@@ -170,7 +170,7 @@ class _ChartsPageState extends State<ChartsPage> {
               title: Text('Steps'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Steps1()));
+                    context, MaterialPageRoute(builder: (context) => Steps()));
               },
             ),
             ListTile(
@@ -179,7 +179,7 @@ class _ChartsPageState extends State<ChartsPage> {
               title: Text('Sleep'),
               onTap: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Sleep1()));
+                    context, MaterialPageRoute(builder: (context) => Sleep()));
               },
             ),
             ListTile(
