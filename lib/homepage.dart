@@ -32,9 +32,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  int s = 0;
-  int c = 0;
+  double s = 0;
+  double c = 0;
   List<double> cdata = [];
+  List<double> cdata2 = [];
 
   List<double> heartRateValues = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0];
 
@@ -60,18 +61,28 @@ class _HomePageState extends State<HomePage> {
     var tagsJson = jsonResponse['activities'];
     // ignore: unused_local_variable
     List<double> tmp2 = [];
+    List<double> tmp3 = [];
     for (Map j in tagsJson) {
       s += j['steps'];
       c += j['calories'];
     }
-    setState(() {});
+    tmp2.add(s);
+    tmp3.add(c);
+    setState(() {
+      this.cdata = tmp2;
+      this.cdata2 = tmp3;
+    });
+  }
+
+void initData () async {
+    await this.loadCalsStepsData();
+    await this.loadHeartRateData();
   }
 
   @override
   void initState() {
     super.initState();
-    loadCalsStepsData();
-    this.loadHeartRateData();
+    this.initData();
   }
 
   Widget myItems(IconData icon, String heading, Color color) {
@@ -165,13 +176,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget myCircularItems(String title) {
+  Widget myCircularItems(String title, List<double> cdata, List<double> cdata2) {
     // var first = new CircularSegmentEntry(s.toDouble(), Colors.orange, rankKey: 'Steps');
     List<CircularStackEntry> circularData = <CircularStackEntry>[
       new CircularStackEntry(
         <CircularSegmentEntry>[
-          new CircularSegmentEntry(15590.0, Colors.orange, rankKey: 'Steps'),
-          new CircularSegmentEntry(3320.0, Colors.grey[500],
+          new CircularSegmentEntry(cdata[0], Colors.orange, rankKey: 'Steps'),
+          new CircularSegmentEntry(cdata2[0], Colors.grey[500],
               rankKey: 'Calories'),
         ],
       ),
@@ -254,7 +265,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
-            child: myCircularItems("Steps"),
+            child: myCircularItems("Steps", this.cdata, this.cdata2),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Steps()));
