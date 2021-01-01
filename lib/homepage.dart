@@ -44,8 +44,8 @@ class _HomePageState extends State<HomePage> {
     final jsonResponse = json.decode(jsonString);
     var tagsJson = jsonResponse['activities-heart'];
     List<double> tmp = [];
-    for (var i = 0; i < tagsJson.length; i++) {
-      int value = tagsJson[i]['heartRate'];
+    for (Map i in tagsJson) {
+      int value = i['heartRate'];
       tmp.add(value.toDouble());
     }
     setState(() {
@@ -60,9 +60,9 @@ class _HomePageState extends State<HomePage> {
     var tagsJson = jsonResponse['activities'];
     // ignore: unused_local_variable
     List<double> tmp2 = [];
-    for (var i = 0; i < tagsJson.length; i++) {
-      s += tagsJson[i]['steps'];
-      c += tagsJson[i]['calories'];
+    for (Map j in tagsJson) {
+      s += j['steps'];
+      c += j['calories'];
     }
     setState(() {});
   }

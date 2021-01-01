@@ -91,7 +91,6 @@ class Profile extends StatelessWidget {
               }
               var myData = json.decode(snapshot.data);
               var tagsJson = myData['user'];//επιλεγουμε το συγκεκριμενο στοιχειο που θελουμε βαση του key
-              print(tagsJson.length); //μας ενδιαφερει το length αυτων των στοιχειων (objecttitle) και οχι ολου του json
               return ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
