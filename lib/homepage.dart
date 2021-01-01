@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-void initData () async {
+  void initData() async {
     await this.loadCalsStepsData();
     await this.loadHeartRateData();
   }
@@ -176,7 +176,8 @@ void initData () async {
     );
   }
 
-  Widget myCircularItems(String title, List<double> cdata, List<double> cdata2) {
+   Widget myCircularItems(
+      String title, List<double> cdata, List<double> cdata2) {
     // var first = new CircularSegmentEntry(s.toDouble(), Colors.orange, rankKey: 'Steps');
     List<CircularStackEntry> circularData = <CircularStackEntry>[
       new CircularStackEntry(
