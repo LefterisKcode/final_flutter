@@ -63,11 +63,11 @@ class _HomePageState extends State<HomePage> {
     List<double> tmp2 = [];
     List<double> tmp3 = [];
     for (Map j in tagsJson) {
-      s += j['steps'];
-      c += j['calories'];
+      s = j['steps'].toDouble();
+      c += j['steps'].toDouble();
     }
     tmp2.add(s);
-    tmp3.add(c);
+    tmp3.add(8000.0);
     setState(() {
       this.cdata = tmp2;
       this.cdata2 = tmp3;
@@ -176,7 +176,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-   Widget myCircularItems(
+  Widget myCircularItems(
       String title, List<double> cdata, List<double> cdata2) {
     // var first = new CircularSegmentEntry(s.toDouble(), Colors.orange, rankKey: 'Steps');
     List<CircularStackEntry> circularData = <CircularStackEntry>[

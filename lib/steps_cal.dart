@@ -43,6 +43,7 @@ class _StepsPageState extends State<Steps> {
       barGroupingType: charts.BarGroupingType.grouped,
       behaviors: [
         new charts.ChartTitle('Steps/Calories', innerPadding: 20),
+        new charts.SeriesLegend(position: charts.BehaviorPosition.end, outsideJustification: charts.OutsideJustification.middleDrawArea),
       ],
     );
   }

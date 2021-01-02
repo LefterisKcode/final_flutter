@@ -55,12 +55,12 @@ class _HeartPageState extends State<Heart> {
     final data = tmp;
     return [
       charts.Series<Hearts, String>(
-        id: 'Heart Rates',
-        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
-        domainFn: (Hearts date, _) => date.date,
-        measureFn: (Hearts value, _) => value.values,
-        data: data,
-      )
+          id: 'Heart Rates',
+          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+          domainFn: (Hearts date, _) => date.date,
+          measureFn: (Hearts value, _) => value.values,
+          data: data,
+          )
     ];
   }
 
