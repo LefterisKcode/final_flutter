@@ -45,8 +45,7 @@ class _SleepPageState extends State<Sleep> {
             behaviorPosition: charts.BehaviorPosition.top,
             titleOutsideJustification: charts.OutsideJustification.middle,
             innerPadding: 20),
-        new charts.ChartTitle('Days',
-            behaviorPosition: charts.BehaviorPosition.bottom,
+        new charts.ChartTitle('Days', behaviorPosition: charts.BehaviorPosition.bottom,
             titleOutsideJustification:
                 charts.OutsideJustification.middleDrawArea),
       ],

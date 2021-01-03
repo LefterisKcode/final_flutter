@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future loadCalsStepsData() async {
+  Future loadStepsData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/cals_step.json');
     final jsonResponse = json.decode(jsonString);
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void initData() async {
-    await this.loadCalsStepsData();
+    await this.loadStepsData();
     await this.loadHeartRateData();
   }
 
@@ -181,11 +181,11 @@ class _HomePageState extends State<HomePage> {
       new CircularStackEntry(
         <CircularSegmentEntry>[
           new CircularSegmentEntry(cdata[0], Colors.orange, rankKey: 'Steps'),
-          new CircularSegmentEntry(cdata2[0], Colors.grey,
-              rankKey: 'Calories'),
+          new CircularSegmentEntry(cdata2[0], Colors.grey, rankKey: 'Total Steps'),
         ],
       ),
     ];
+
     return Material(
       color: Colors.white,
       elevation: 14.0,
