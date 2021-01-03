@@ -59,7 +59,6 @@ class _HomePageState extends State<HomePage> {
         .loadString('assets/data_repo/cals_step.json');
     final jsonResponse = json.decode(jsonString);
     var tagsJson = jsonResponse['activities'];
-    // ignore: unused_local_variable
     List<double> tmp2 = [];
     List<double> tmp3 = [];
     for (Map j in tagsJson) {
@@ -67,7 +66,7 @@ class _HomePageState extends State<HomePage> {
       c += j['steps'].toDouble();
     }
     tmp2.add(s);
-    tmp3.add(8000.0);
+    tmp3.add(8000.0 - s);
     setState(() {
       this.cdata = tmp2;
       this.cdata2 = tmp3;
