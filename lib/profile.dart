@@ -89,7 +89,7 @@ class Profile extends StatelessWidget {
               if(!snapshot.hasData) {
                 return CircularProgressIndicator();
               }
-              var myData = json.decode(snapshot.data);
+              var myData = json.decode(snapshot.data.toString());
               var tagsJson = myData['user'];//επιλεγουμε το συγκεκριμενο στοιχειο που θελουμε βαση του key
               return ListView.builder(
                 itemBuilder: (BuildContext context, int index) {

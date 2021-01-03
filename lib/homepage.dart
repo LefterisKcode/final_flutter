@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:project/profile.dart';
@@ -11,6 +10,7 @@ import 'about.dart';
 import 'charts.dart';
 import 'hearts.dart';
 import 'help.dart';
+import 'steps_chart_panel.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -68,8 +68,8 @@ class _HomePageState extends State<HomePage> {
     tmp2.add(s);
     tmp3.add(8000.0 - s);
     setState(() {
-      this.cdata = tmp2;
-      this.cdata2 = tmp3;
+      this.cdata = [s];
+      this.cdata2 = [8000.0 - s];
     });
   }
 
@@ -175,67 +175,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget myCircularItems(
-      String title, List<double> cdata, List<double> cdata2) {
-    // var first = new CircularSegmentEntry(s.toDouble(), Colors.orange, rankKey: 'Steps');
-    List<CircularStackEntry> circularData = <CircularStackEntry>[
-      new CircularStackEntry(
-        <CircularSegmentEntry>[
-          new CircularSegmentEntry(cdata[0], Colors.orange, rankKey: 'Steps'),
-          new CircularSegmentEntry(cdata2[0], Colors.grey[500],
-              rankKey: 'Calories'),
-        ],
-      ),
-    ];
-    return Material(
-      color: Colors.white,
-      elevation: 14.0,
-      borderRadius: BorderRadius.circular(24.0),
-      shadowColor: Colors.purple[200],
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        width: 130,
-                        height: 240,
-                        child: AnimatedCircularChart(
-                          //το widget που μας δινει το package flutter_circular_chart.dart
-                          size: Size(100.0, 100.0),
-                          initialChartData: circularData,
-                          chartType: CircularChartType.Pie,
-                          holeRadius: 50,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -265,7 +205,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
-            child: myCircularItems("Steps", this.cdata, this.cdata2),
+            child: StepsChartPanel(),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Steps()));

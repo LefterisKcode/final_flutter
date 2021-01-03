@@ -15,7 +15,7 @@ class Sleep extends StatefulWidget {
 class _SleepPageState extends State<Sleep> {
   List<charts.Series<Sleeps, num>> sleepData = [];
   List<Sleeps> tmp = [];
-  Future<List> loadSleepData() async {
+  Future<List<Sleeps>> loadSleepData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/slept1.json');
     final jsonResponse = json.decode(jsonString);

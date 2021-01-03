@@ -17,7 +17,7 @@ class _StepsPageState extends State<Steps> {
   List<StepsCals> tmp = [];
   var myStepcData;
 
-  Future<List> loadCalsStepsData() async {
+  Future<List<StepsCals>> loadCalsStepsData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/cals_step.json');
     final jsonResponse = json.decode(jsonString);
