@@ -177,12 +177,11 @@ class _HomePageState extends State<HomePage> {
 
   Widget myCircularItems(
       String title, List<double> cdata, List<double> cdata2) {
-    // var first = new CircularSegmentEntry(s.toDouble(), Colors.orange, rankKey: 'Steps');
     List<CircularStackEntry> circularData = <CircularStackEntry>[
       new CircularStackEntry(
         <CircularSegmentEntry>[
           new CircularSegmentEntry(cdata[0], Colors.orange, rankKey: 'Steps'),
-          new CircularSegmentEntry(cdata2[0], Colors.grey[500],
+          new CircularSegmentEntry(cdata2[0], Colors.grey,
               rankKey: 'Calories'),
         ],
       ),

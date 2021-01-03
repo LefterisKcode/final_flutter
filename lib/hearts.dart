@@ -15,7 +15,7 @@ class Heart extends StatefulWidget {
 class _HeartPageState extends State<Heart> {
   List<charts.Series<Hearts, String>> heartData = [];
   List<Hearts> tmp = [];
-  Future<List> loadHeartData() async {
+  Future<List<Hearts>> loadHeartData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/heart_rate.json');
     final jsonResponse = json.decode(jsonString);
