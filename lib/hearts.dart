@@ -14,10 +14,10 @@ class Heart extends StatefulWidget {
 
 class _HeartPageState extends State<Heart> {
   List<charts.Series<Hearts, String>> heartData =
-      []; // Arxikopoihsh mias listas tupou List<Series<Hearts, String>>
-  List<Hearts> tmp = []; // Arxikopoihsi listas tupou <Hearts>
+      []; // Αρχικοποίηση μιας λίστας τύπου List<Series<Hearts, String>>
+  List<Hearts> tmp = []; // Αρχικοποίηση λίστας τύπου <Hearts>
 
-  // Dimiourgias mias future sunartisis h opoia tha epistrefei mia lista tupou <Hearts>
+  // Δημιουργία μιας future συνάρτησης η οποία θα επιστρέφει πίσω μια λίστα τύπου <Hearts>
   Future<List<Hearts>> loadHeartData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/heart_rate.json');
@@ -26,20 +26,20 @@ class _HeartPageState extends State<Heart> {
     setState(() {
       for (Map i in tagsJson) {
         tmp.add(Hearts(i['dateTime'],
-            i['heartRate'])); // Bazw ta stoixeia apo to json mesa stin lista tmp
+            i['heartRate'])); // Βάζω στοιχεία απο το json μέσα στην λίστα tmp
       }
     });
-    return tmp; // Epistrosfi tis listas tmp pou einai tupou <Hearts> gia na tin xrisimopoihsw sto chart mou meta
+    return tmp; // Επιστροφή της λίστας tmp που είναι τύπου <Hearts> για να την χρησιμοποιήσω μέσα στο chart μου μετά
   }
 
-  // Dimiourgia mias void sunartisis h opoia einai async kai xrisimopoieitai wste to programma na perimenei na parei ola ta dedomena kai meta na emfanisei kati
+  // Δημιουργία μιας void συνάρτησης η οποία είναι ασύγχρονη και χρησιμοποιείται ώστε το πρόγραμμα μου να περιμένει πρώτα να πάρει όλα τα δεδομένα και έπειτα να εμφανίσει ότι είναι
   void initData() async {
     this.tmp = await this.loadHeartData();
     heartData = _createMyData();
     this.barChart();
   }
 
-  // Dimiourgia mias dynamic synartisis h opoia periexei to eidos tou chart kai kapoia dedomena (eidos data, animate, behavior ,etc.)
+  // Δημιουργία μιας dynamic συνάρτησης η οποία περιέχει το είδος του chart και κάποια δεδομένα (όπως είδος data, animate, behavior)
   barChart() {
     return charts.BarChart(
       heartData,
@@ -51,14 +51,14 @@ class _HeartPageState extends State<Heart> {
     );
   }
 
-  // Dimiourgia tis void sunartisis InitState pou xreiazetai gia to programma na treksei swsta
+  // Συνάρτηση InitState, παριέχει βασικές συναρτήσεις μέσα που χρειάζονται για να τρέξει ορθά το πρόγραμμα μου
   @override
   void initState() {
     super.initState();
     this.initData();
   }
 
-  // Dimiourgia mias sunartisis eidous List<charts.Series<Hearts, String>> pou tha periexei ta dedomena tou grafimatos (auta pou pirame apo grammi 32), ti tha mpei ston kathe aksona , etc.
+  // Δημιουργία μιας συνάρτησης του είδους List<charts.Series<Hearts, String>> που θα περιέχει τα δεδομένα του γραφήματος (αυτά που πήραμε απο γραμμή 32), όπως και τι θα μπεί στον κάθε άξονα
   List<charts.Series<Hearts, String>> _createMyData() {
     final data = tmp;
     return [
@@ -72,13 +72,13 @@ class _HeartPageState extends State<Heart> {
     ];
   }
 
-  // Dimiourgia enos build widget to opoio periexei ton drawer, to titlo tis selidas
+  // Δημιουργία ενός build widget το οποίο περιέχει τον drawer, τον τίτλο της σελίδας , κλπ.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Heart Rate"),
-        backgroundColor: Colors.redAccent, // AppBar Color
+        backgroundColor: Colors.blueGrey[400], // AppBar χρώμα
       ),
       drawer: Drawer(
         child: ListView(
@@ -143,14 +143,14 @@ class _HeartPageState extends State<Heart> {
         ),
       ),
       body: Container(
-        // Sto body tha kalesw tin sunartisi (dynamic) pou eftiaksa prin , wste na emfanistei to chart mou
+        // Στο body θα καλέσω την συνάρτηση (την dynamic) που έφτιαξα πριν, ώστε να εμφανιστεί το chart μου
         child: barChart(),
       ),
     );
   }
 }
 
-// Dimiourgia mias klasis me onoma Hearts tin opoia tha tin xrisimopoihsw gia to chart, ta data mou (string date / orizontios aksonas sto chart) (int value / katakorufos aksonas sto chart)
+// Δημιουργία μιας κλάσης Hearts την οποία θα την χρησιμοποιήσω για το chart, για να περάσω τα data μου (string date / οριζόντιος άξονας στο chart) (int value / κατακόρυφος άξονας στο chart)
 class Hearts {
   final String date;
   final int values;

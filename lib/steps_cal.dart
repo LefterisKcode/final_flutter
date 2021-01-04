@@ -84,7 +84,7 @@ class _StepsPageState extends State<Steps> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Steps"),
-        backgroundColor: Colors.green[600], // Χρώμα του AppBar
+        backgroundColor: Colors.blueGrey[400], // Χρώμα του AppBar
       ),
       drawer: Drawer(
         child: ListView(

@@ -87,7 +87,7 @@ class _SleepPageState extends State<Sleep> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Sleep"),
-        backgroundColor: Colors.purple[300], // AppBar χρώμα
+        backgroundColor: Colors.blueGrey[400], // AppBar χρώμα
       ),
       drawer: Drawer(
         child: ListView(

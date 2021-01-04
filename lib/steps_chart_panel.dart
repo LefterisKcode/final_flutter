@@ -8,17 +8,17 @@ class StepsChartPanel extends StatefulWidget {
 }
 
 class _StepsChartPanelState extends State<StepsChartPanel> {
-  Future<List<CircularStackEntry>> loadCalsStepsData() async {
+  // Δημιουργία μιας future συνάρτησης που θα επιστρέφει πίσω λίστα του είδους <CircularStackEntry>
+  Future<List<CircularStackEntry>> loadStepsData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/cals_step.json');
     final jsonResponse = json.decode(jsonString);
     var tagsJson = jsonResponse['activities'];
     double s = 0.0;
+    s = (tagsJson.last)['steps']
+        .toDouble(); // Για να πάρω το τελευταίο στοιχείο απο την λίστα activities και πεδίο steps
 
-    for (Map j in tagsJson) {
-      s = j['steps'].toDouble();
-    }
-    // We create the corresponding data to be shown on the chart and return it in the snapshot
+    // Δημιουργία της λίστας dataEntry που θα περιέχει μέσα τις τιμές για το pie chart μου
     List<CircularStackEntry> dataEntry = [
       new CircularStackEntry([
         new CircularSegmentEntry(s, Colors.orange, rankKey: "Steps"),
@@ -27,10 +27,11 @@ class _StepsChartPanelState extends State<StepsChartPanel> {
       ]),
     ];
 
-    return dataEntry;
+    return dataEntry; // Κάνω return την λίστα ώστε να την χρησιμοποιήσω αργότερα
   }
 
-  Widget myCircularItems(String title, List<CircularStackEntry> circularData) {
+  // Widget του είδους createPieChart που παίρνει σαν ορίσματα τον τίτλο και μια λίστα απο CircularStackEntries και φτιάχνει το γράφημα πάνω στην καρτέλα
+  Widget createPieChart(String title, List<CircularStackEntry> circularData) {
     return Material(
       color: Colors.white,
       elevation: 14.0,
@@ -82,19 +83,27 @@ class _StepsChartPanelState extends State<StepsChartPanel> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadCalsStepsData(),
+      future:
+          loadStepsData(), // Για να πώ απο ποια συνάρτηση θα πάρω τα δεδομένα για να φτιάξω τα widgets που χρειάζομαι
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        // Είναι η συνάρτηση που παίρνει στιγμιότυπα απο το future (γραμμή 87) και αναλόγως σε τι κατάσταση βρίσκεται θα φτιάξει το ανάλογο widget
         if (snapshot.connectionState == ConnectionState.waiting) {
+          // Έλεγχος για το αν έχει ολοκληρώσει την διαδικασία που παίρνει τα δεδομένα ή όχι
           return Center(
             child: Text("Loading data..."),
           );
         } else {
           if (snapshot.hasError) {
+            // Ελέγχουμε αν τα δεδομένα που πήραμε είναι άδεια
             return Center(
-              child: Text("Error! Empty snapshot"),
+              child: Text(
+                  "Error! Empty snapshot"), // Αν είναι άδεια τότε εμφανίζω πάνω στην καρτέλα το μήνυμα που είναι στο Text
             );
           }
-          return myCircularItems("Steps", snapshot.data);
+          return createPieChart(
+              "Steps",
+              snapshot
+                  .data); // Αν δεν είναι άδεια τα δεδομέναν τότε θα επιστρέψει το widget με το γράφημα
         }
       },
     );
