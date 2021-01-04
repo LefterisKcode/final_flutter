@@ -11,7 +11,7 @@ class About extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("About Us"),
-        backgroundColor: Colors.black, // AppBar Color
+        backgroundColor: Colors.blueGrey[400], // AppBar Color
       ),
       drawer: Drawer(
         child: ListView(

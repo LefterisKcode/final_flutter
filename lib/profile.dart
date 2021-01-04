@@ -13,7 +13,7 @@ class Profile extends StatelessWidget {
       appBar: AppBar(
         // Δημιουργία του AppBar που περιέχει μέσα τον drawer και τον τίτλο της σελίδας
         title: Text("Demographics"),
-        backgroundColor: Colors.blueAccent, // AppBar Color
+        backgroundColor: Colors.blueGrey[400], // AppBar Color
       ),
       drawer: Drawer(
         child: ListView(
@@ -118,11 +118,12 @@ class Profile extends StatelessWidget {
                           padding: EdgeInsets.all(15.0),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(50.0),
-                            //  child:Image.network((tagsJson[index]['avatar'])),
-                            child: Image.network(
-                                'https://media-exp1.licdn.com/dms/image/C5603AQH6ZJagsJ9o9A/profile-displayphoto-shrink_200_200/0/1597740930018?e=1613001600&v=beta&t=KgpNEDukbdZzf_n3KdIzjzJkJHBshCAhSNZowypkMb4',
-                                height: 100),
-                          ),
+                             // child:Image.network((tagsJson[index]['avatar'])),
+                          //   child: Image.network(
+                          //       'https://media-exp1.licdn.com/dms/image/C5603AQH6ZJagsJ9o9A/profile-displayphoto-shrink_200_200/0/1597740930018?e=1613001600&v=beta&t=KgpNEDukbdZzf_n3KdIzjzJkJHBshCAhSNZowypkMb4',
+                          //       height: 100),
+                         child: Image.asset("assets/images/me.jpeg", width: 100, height: 100),
+                         ),
                         ),
                         Padding(
                           // Δημιουργία κειμένου που θα περιέχει το ονοματεπώνυμο μου, βάσει των στοιχείων που έχει το json
