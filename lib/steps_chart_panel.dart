@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'dart:convert';
+
 class StepsChartPanel extends StatefulWidget {
   @override
   _StepsChartPanelState createState() => _StepsChartPanelState();
 }
 
 class _StepsChartPanelState extends State<StepsChartPanel> {
-  // List<double> cdata = [];
-  // List<double> cdata2 = [];
   Future<List<CircularStackEntry>> loadCalsStepsData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/cals_step.json');
@@ -18,24 +17,21 @@ class _StepsChartPanelState extends State<StepsChartPanel> {
 
     for (Map j in tagsJson) {
       s = j['steps'].toDouble();
-      //c += j['steps'].toDouble();
     }
     // We create the corresponding data to be shown on the chart and return it in the snapshot
     List<CircularStackEntry> dataEntry = [
       new CircularStackEntry([
         new CircularSegmentEntry(s, Colors.orange, rankKey: "Steps"),
         new CircularSegmentEntry((8000 - s), Colors.grey,
-            rankKey: "Calories"),
+            rankKey: "Total Steps"),
       ]),
     ];
 
     return dataEntry;
   }
 
-
-  Widget myCircularItems(
-      String title, List<CircularStackEntry> circularData) {
-        return Material(
+  Widget myCircularItems(String title, List<CircularStackEntry> circularData) {
+    return Material(
       color: Colors.white,
       elevation: 14.0,
       borderRadius: BorderRadius.circular(24.0),
@@ -81,7 +77,8 @@ class _StepsChartPanelState extends State<StepsChartPanel> {
         ),
       ),
     );
-      }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -89,12 +86,12 @@ class _StepsChartPanelState extends State<StepsChartPanel> {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-            child: Text("Loading data"),
+            child: Text("Loading data..."),
           );
         } else {
           if (snapshot.hasError) {
             return Center(
-              child: Text("Error you son of a bitch"),
+              child: Text("Error! Empty snapshot"),
             );
           }
           return myCircularItems("Steps", snapshot.data);

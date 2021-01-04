@@ -13,8 +13,12 @@ class Sleep extends StatefulWidget {
 }
 
 class _SleepPageState extends State<Sleep> {
-  List<charts.Series<Sleeps, num>> sleepData = [];
-  List<Sleeps> tmp = [];
+  List<charts.Series<Sleeps, num>> sleepData =
+      []; // Αρχικοποίηση μιας λίστας τύπου <charts.Series<Sleeps, num>>
+  List<Sleeps> tmp =
+      []; // Αρχικοποίηση μιας λίστας τύπου <Sleeps> που μετέπειτα θα 'χει τα δεδομένα απο το json
+
+  // Δημιουργία μιας future συνάρτησης που θα επιστρέφει πίσω μια λίστα τύπου <Sleeps>
   Future<List<Sleeps>> loadSleepData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/slept1.json');
@@ -22,18 +26,21 @@ class _SleepPageState extends State<Sleep> {
     var tagsJson = jsonResponse['sleep'];
     setState(() {
       for (Map i in tagsJson) {
-        tmp.add(Sleeps(i['dateOfSleep'], i['minutes']));
+        tmp.add(Sleeps(i['dateOfSleep'],
+            i['minutes'])); // Περνάω μέσα στην λίστα μου τα δεδομένα που πήρα απο το json
       }
     });
-    return tmp;
+    return tmp; // Επιστρέφω την λίστα tmp για να την χρησιμοποιήσω μέσα στα chart
   }
 
+  // Δημιουργία μιας void συνάρτησης η οποία είναι ασύγχρονη και χρησιμοποιείται ώστε το πρόγραμμα μου να περιμένει πρώτα να πάρει όλα τα δεδομένα και έπειτα να εμφανίσει ότι είναι
   void initData() async {
     this.tmp = await this.loadSleepData();
     sleepData = _createMyData();
     this.sleepChart();
   }
 
+  // Δημιουργία μιας dynamic συνάρτησης που έχει πληροφορίες όπως τι γράφημα θα χρησιμοποιήσω, τι δεδομένα θα 'χει, τι τίτλο, κλπ.
   sleepChart() {
     return charts.LineChart(
       sleepData,
@@ -53,12 +60,14 @@ class _SleepPageState extends State<Sleep> {
     );
   }
 
+  // Βασική συνάρητηση ώστε να λειτουργήσει το πρόγραμμα μου σωστά μέσα στον ασύγχρονο κώδικα
   @override
   void initState() {
     super.initState();
     this.initData();
   }
 
+  // Συνάρτηση είδους List<charts.Series<Sleeps, num>> που θα παίρνει σαν δεδομένα την λίστα που επέστρεψε η συνάρτηση μας στην γραμμη 33
   List<charts.Series<Sleeps, num>> _createMyData() {
     final data = tmp;
     return [
@@ -72,12 +81,13 @@ class _SleepPageState extends State<Sleep> {
     ];
   }
 
+  // Widget είδους build που περιέχει βασικά μου components όπως appbar, drawer , title
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Sleep"),
-        backgroundColor: Colors.purple[300], // AppBar Color
+        backgroundColor: Colors.purple[300], // AppBar χρώμα
       ),
       drawer: Drawer(
         child: ListView(
@@ -156,6 +166,7 @@ class _SleepPageState extends State<Sleep> {
   }
 }
 
+// Δημιουργία κλάσης η οποία θα περιέχει είδη δεδομένων βάσει των στοιχείων που θέλω να πάρω απο το json (int dates / οριζόντιος άξονας 1-7 τιμές) (int minutes / κατακόρυφος άξονας)
 class Sleeps {
   int dates;
   int minutes;

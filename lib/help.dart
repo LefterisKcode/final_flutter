@@ -13,21 +13,22 @@ class HelpPage extends StatefulWidget {
 }
 
 class _HelpPageState extends State<HelpPage> {
-  int _selectedIndex = 2;
+  int _selectedIndex = 2; // Επιλογή 3η στο bottom navigation bar
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex == 0) {
+      if (_selectedIndex == 0) { // Αν η θέση του πίνακα είναι η 0 τότε πάμε στην homepage
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HomePage()));
       }
-      else if (_selectedIndex == 1) {
+      else if (_selectedIndex == 1) { // Αν η θέση του πίνακα ειναι η 1 τότε πάμε στα charts
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => ChartsPage()));
       }
     });
   }
 
+  // Δημιουργία του build widget το οποίο περιέχει τα βασικά components όπως appbar, title, drawer, κλπ.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +122,7 @@ class _HelpPageState extends State<HelpPage> {
           ),
         ]),
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar( // Δημιουργία του bottom navigation bar
         backgroundColor: Colors.blueGrey[50],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

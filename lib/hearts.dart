@@ -13,8 +13,11 @@ class Heart extends StatefulWidget {
 }
 
 class _HeartPageState extends State<Heart> {
-  List<charts.Series<Hearts, String>> heartData = [];
-  List<Hearts> tmp = [];
+  List<charts.Series<Hearts, String>> heartData =
+      []; // Arxikopoihsh mias listas tupou List<Series<Hearts, String>>
+  List<Hearts> tmp = []; // Arxikopoihsi listas tupou <Hearts>
+
+  // Dimiourgias mias future sunartisis h opoia tha epistrefei mia lista tupou <Hearts>
   Future<List<Hearts>> loadHeartData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/heart_rate.json');
@@ -22,18 +25,21 @@ class _HeartPageState extends State<Heart> {
     var tagsJson = jsonResponse['activities-heart'];
     setState(() {
       for (Map i in tagsJson) {
-        tmp.add(Hearts(i['dateTime'], i['heartRate']));
+        tmp.add(Hearts(i['dateTime'],
+            i['heartRate'])); // Bazw ta stoixeia apo to json mesa stin lista tmp
       }
     });
-    return tmp;
+    return tmp; // Epistrosfi tis listas tmp pou einai tupou <Hearts> gia na tin xrisimopoihsw sto chart mou meta
   }
 
+  // Dimiourgia mias void sunartisis h opoia einai async kai xrisimopoieitai wste to programma na perimenei na parei ola ta dedomena kai meta na emfanisei kati
   void initData() async {
     this.tmp = await this.loadHeartData();
     heartData = _createMyData();
     this.barChart();
   }
 
+  // Dimiourgia mias dynamic synartisis h opoia periexei to eidos tou chart kai kapoia dedomena (eidos data, animate, behavior ,etc.)
   barChart() {
     return charts.BarChart(
       heartData,
@@ -45,25 +51,28 @@ class _HeartPageState extends State<Heart> {
     );
   }
 
+  // Dimiourgia tis void sunartisis InitState pou xreiazetai gia to programma na treksei swsta
   @override
   void initState() {
     super.initState();
     this.initData();
   }
 
+  // Dimiourgia mias sunartisis eidous List<charts.Series<Hearts, String>> pou tha periexei ta dedomena tou grafimatos (auta pou pirame apo grammi 32), ti tha mpei ston kathe aksona , etc.
   List<charts.Series<Hearts, String>> _createMyData() {
     final data = tmp;
     return [
       charts.Series<Hearts, String>(
-          id: 'Heart Rates',
-          colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
-          domainFn: (Hearts date, _) => date.date,
-          measureFn: (Hearts value, _) => value.values,
-          data: data,
-          )
+        id: 'Heart Rates',
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        domainFn: (Hearts date, _) => date.date,
+        measureFn: (Hearts value, _) => value.values,
+        data: data,
+      )
     ];
   }
 
+  // Dimiourgia enos build widget to opoio periexei ton drawer, to titlo tis selidas
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,12 +143,14 @@ class _HeartPageState extends State<Heart> {
         ),
       ),
       body: Container(
+        // Sto body tha kalesw tin sunartisi (dynamic) pou eftiaksa prin , wste na emfanistei to chart mou
         child: barChart(),
       ),
     );
   }
 }
 
+// Dimiourgia mias klasis me onoma Hearts tin opoia tha tin xrisimopoihsw gia to chart, ta data mou (string date / orizontios aksonas sto chart) (int value / katakorufos aksonas sto chart)
 class Hearts {
   final String date;
   final int values;

@@ -18,20 +18,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // Proti thesi pinaka pou paei sto homepage
   void _onItemTapped(int index) {
+    // Gia na allazei to bottom navigation bar otan pataw se ena ap ta 3 options
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex == 1) {
+        // 2h epilogi tou pinaka pou paei sto page me ta charts
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => ChartsPage()));
       } else if (_selectedIndex == 2) {
+        // 3h epilogi tou pinaka pou paei sto page me to help
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HelpPage()));
       }
     });
   }
 
+  // Arxikopoihsh metablitwn pou tha xrisimopoihsw sta heart rate kai steps charts pou exw sto homepage
   double s = 0;
   double c = 0;
   List<double> cdata = [];
@@ -39,6 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   List<double> heartRateValues = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0];
 
+  // Dimiourgia mias future sunartisis pou tha pairnei to json (tis times autou) gia to heart rate
   Future loadHeartRateData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/heart_rate.json');
@@ -50,11 +55,13 @@ class _HomePageState extends State<HomePage> {
       tmp.add(value.toDouble());
     }
     setState(() {
+      // Pernaw kai allazw tis times pou eixa dwsei prin (stin arxikopoihsh) me tis swstes times tou Json
       this.heartRateValues = tmp;
     });
   }
 
-  Future loadCalsStepsData() async {
+  // Dimiourgia mias future sunartisis pou tha pairnei to json (tis times autou) gia ta steps
+  Future loadStepsData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/cals_step.json');
     final jsonResponse = json.decode(jsonString);
@@ -65,25 +72,31 @@ class _HomePageState extends State<HomePage> {
       s = j['steps'].toDouble();
       c += j['steps'].toDouble();
     }
-    tmp2.add(s);
-    tmp3.add(8000.0 - s);
+    tmp2.add(
+        s); // To value ap to portokali kommati tou pie chart me ta bimata tis teleutaias hmeras
+    tmp3.add(8000.0 -
+        s); // To value ap to gkri kommati tou pie chart me ta bimata pou apomenoun gia na ftasoyme sta 8000 (hmerisios stoxos)
     setState(() {
+      // Bazw tis times mesa sta 2 lists pou eixa ftiaksei
       this.cdata = [s];
       this.cdata2 = [8000.0 - s];
     });
   }
 
+  // Void sunartisi me tin opoia perimenw na sumplirothoun oi times kai meta tis dinw sto programma
   void initData() async {
-    await this.loadCalsStepsData();
+    await this.loadStepsData();
     await this.loadHeartRateData();
   }
 
+  // Void sunartisi pou periexei tin InitState h opoia einai aparaititi gia to programma
   @override
   void initState() {
     super.initState();
     this.initData();
   }
 
+  // Widget eidous myItems to opoio periexei tin ulopoihsh twn Sleep kai Me poy fainontai sto homepage
   Widget myItems(IconData icon, String heading, Color color) {
     return Material(
       color: Colors.white,
@@ -122,8 +135,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//το widgets για να φτιαξουμε το πρωτο γραφημα σε μορφη γραμμης
-  Widget mychart1Items(String title, List<double> heartRateData) {
+// Widget eidous myHeartChart to opoio periexei tin ulopoihsh kai oti allo xreiazetai gia na emfanisw to diagramma me tous palmous se grammi
+  Widget myHeartChart(String title, List<double> heartRateData) {
     return Material(
       color: Colors.white,
       elevation: 14.0,
@@ -156,12 +169,12 @@ class _HomePageState extends State<HomePage> {
                       child: new Sparkline(
                         fallbackHeight: 1,
                         sharpCorners: true,
-                        //το γραφημε σε μορφη γραμμης
+                        //ta dedomena tou grafimatos
                         data:
-                            heartRateData, // τα double δεδομενα που εχουμε δηλωσει στην αρχη
+                            heartRateData, // ta double data pou pairnoume apo tin entoli stin grammi 59
                         lineColor: Colors.red,
                         pointsMode: PointsMode
-                            .all, //δειχνει τα σημεια με τις τιμες σαν βουλες/points
+                            .all, // gia na emfanizei koukida se ola ta simeia pou exei value apo heart rate
                         pointSize: 7.0,
                       ),
                     )
@@ -175,10 +188,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-   @override
+  // Widget eidous build pou periexei ta basika kommatia , opws ulopoihsh Dashboard
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar( // Dimiourgia tou AppBar pou periexei to drawer kai to titlo tis selidas
         backgroundColor: Colors.blueGrey[400],
         title: Text(
           "Dashboard",
@@ -196,7 +210,8 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
         children: <Widget>[
           InkWell(
-            child: mychart1Items("Heart Rate", this.heartRateValues),
+            // Kartela me to chart tou heart rate
+            child: myHeartChart("Heart Rate", this.heartRateValues),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Heart()));
@@ -205,6 +220,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
+            // Kartela me to pie chart twn steps
             child: StepsChartPanel(),
             onTap: () {
               Navigator.push(
@@ -214,6 +230,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
+            // Kartela me to 'Me' to opoio mas paei sto profile
             child: myItems(Icons.account_box_rounded, "Me", Colors.blueGrey),
             onTap: () {
               Navigator.push(
@@ -223,6 +240,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
+            // Kartela me to 'Sleep' to opoio mas paei sto chart me ta sleep values
             child: myItems(Icons.airline_seat_individual_suite_rounded, "Sleep",
                 Colors.blueGrey),
             onTap: () {
@@ -230,28 +248,32 @@ class _HomePageState extends State<HomePage> {
                   context, MaterialPageRoute(builder: (context) => Sleep()));
             },
             customBorder: RoundedRectangleBorder(
+                // Gia na stroggulepsw tis gwnies twn kartelwn
                 borderRadius: BorderRadius.circular(25.0)),
           ),
         ],
         staggeredTiles: [
           //οσα αντικειμενα βαλαμε στο children τοσα πρεπει να βαλουμε και εδω
           StaggeredTile.extent(2,
-              250.0), //η πρωτη παραμετρος λεει ποσες στηλες να καλυπτει το tile/κουτι (orange)
+              250.0), //η πρωτη παραμετρος λεει ποσες στηλες να καλυπτει το tile/κουτι (heartRate chart)
           StaggeredTile.extent(1,
-              350.0), //δευτερη παραμετρος λεει το υψος τους tile/κουτιου  (purple)
-          StaggeredTile.extent(1, 163.0),
-          StaggeredTile.extent(1, 163.0),
+              350.0), //δευτερη παραμετρος λεει το υψος τους tile/κουτιου  (Steps chart)
+          StaggeredTile.extent(1, 163.0), // (Me chart)
+          StaggeredTile.extent(1, 163.0), // (Sleep chart)
         ],
       ),
       drawer: Drawer(
+        // Dimiourgia tou drawer
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
+              // Dimiourgia tou drawer header
               decoration: BoxDecoration(
                 color: Colors.blueGrey[400],
               ),
               child: Text(
+                // Titlos sto drawer
                 'Health',
                 style: TextStyle(
                   color: Colors.white,
@@ -261,6 +283,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
+              // 1o item mesa ston drawer (home)
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
@@ -268,6 +291,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 2o item mesa ston drawer (heart rate)
               leading: Icon(Icons.favorite, color: Colors.redAccent),
               title: Text('Heart Rate'),
               onTap: () {
@@ -276,6 +300,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 3o item mesa ston drawer (steps)
               leading:
                   Icon(Icons.directions_run_rounded, color: Colors.green[600]),
               title: Text('Steps'),
@@ -285,6 +310,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 4o item mesa ston drawer (sleep)
               leading: Icon(Icons.airline_seat_individual_suite_rounded,
                   color: Colors.purple[300]),
               title: Text('Sleep'),
@@ -294,6 +320,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 5o item mesa ston drawer (demographics)
               leading:
                   Icon(Icons.account_circle_rounded, color: Colors.blueAccent),
               title: Text('Demographics'),
@@ -303,6 +330,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 6o item mesa ston drawer (about us)
               leading: Icon(Icons.info, color: Colors.black),
               title: Text('About Us'),
               onTap: () {
@@ -314,6 +342,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        // Dimiourgia tou bottom navigation bar (to opoio periexei ta Home / Charts / Help)
         backgroundColor: Colors.blueGrey[50],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

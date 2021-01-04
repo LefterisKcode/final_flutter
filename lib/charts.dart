@@ -15,20 +15,25 @@ class ChartsPage extends StatefulWidget {
 }
 
 class _ChartsPageState extends State<ChartsPage> {
-  int _selectedIndex = 1;
+  int _selectedIndex =
+      1; // Επιλεγμένο εξ' αρχής το 2ο στοιχείο του bottom navigation bar (με τα charts)
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex == 0) {
-         Navigator.push(context,  MaterialPageRoute(builder: (context) => HomePage()));
+        // Αν η θέση πάει στο 0 τότε πάμε στο home page
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => HomePage()));
       }
       if (_selectedIndex == 2) {
+        // Αν η θέση πάει στο 2 τοε πάμε στο help page
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HelpPage()));
       }
     });
   }
 
+  // Widget είδους myItems το οποίο περιέχει τον σκελετό που θα βάλω μέσα τα charts μου (τις εικόνες με τις καρτέλες για να επιλέξει ο χρήστης γράφημα)
   Widget myItems(Image image, String heading, Color color) {
     return Material(
       color: Colors.white,
@@ -51,7 +56,7 @@ class _ChartsPageState extends State<ChartsPage> {
                             TextStyle(color: Colors.blueGrey, fontSize: 18.0)),
                   ),
                   Material(
-                   // color: Colors.blueGrey,
+                    // color: Colors.blueGrey,
                     borderRadius: BorderRadius.circular(30.0),
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
@@ -67,6 +72,7 @@ class _ChartsPageState extends State<ChartsPage> {
     );
   }
 
+  // Δημιουργία του build widget που περιέχει μέσα τα βασικά components appbar ,  drawer, title , etc.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +81,7 @@ class _ChartsPageState extends State<ChartsPage> {
           "Charts",
           style: TextStyle(color: Colors.black),
         ),
-        backgroundColor: Colors.orange, // AppBar Color
+        backgroundColor: Colors.orange, // AppBar χρώμα
         iconTheme: IconThemeData(color: Colors.black),
       ),
       body: StaggeredGridView.count(
@@ -87,38 +93,39 @@ class _ChartsPageState extends State<ChartsPage> {
         padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
         children: <Widget>[
           InkWell(
-            child: myItems(Image.asset('assets/images/hearts.png', width:200, height:150), "HR Chart", Colors.blueGrey),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Heart())); // Για να μεταβαινει απο τις καρτελες μεσα στα κειμενα (article1,article2......)
-            },
-            customBorder: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0)),
-          ),
-          InkWell(
-            child: myItems(Image.asset('assets/images/steps_calories.png', width:200, height:150), "S/C Chart", Colors.blueGrey),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Steps())); // Για να μεταβαινει απο τις καρτελες μεσα στα κειμενα (article1,article2......)
-            },
-            customBorder: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(25.0)),
-          ),
-          InkWell(
-            child: myItems(Image.asset('assets/images/sleep.png', width:200, height:150), "Sleep Chart",
+            child: myItems(
+                Image.asset('assets/images/hearts.png',
+                    width: 200, height: 150),
+                "HR Chart",
                 Colors.blueGrey),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          Sleep())); // Για να μεταβαινει απο τις καρτελες μεσα στα κειμενα (article1,article2......)
+                  context, MaterialPageRoute(builder: (context) => Heart()));
+            },
+            customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+          ),
+          InkWell(
+            child: myItems(
+                Image.asset('assets/images/steps_calories.png',
+                    width: 200, height: 150),
+                "S/C Chart",
+                Colors.blueGrey),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Steps()));
+            },
+            customBorder: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0)),
+          ),
+          InkWell(
+            child: myItems(
+                Image.asset('assets/images/sleep.png', width: 200, height: 150),
+                "Sleep Chart",
+                Colors.blueGrey),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Sleep()));
             },
             customBorder: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0)),
@@ -126,9 +133,12 @@ class _ChartsPageState extends State<ChartsPage> {
         ],
         staggeredTiles: [
           //οσα αντικειμενα βαλαμε στο children τοσα πρεπει να βαλουμε και εδω
-          StaggeredTile.extent(2, 250.0), //η πρωτη παραμετρος λεει ποσες στηλες να καλυπτει το tile/κουτι (orange)
-          StaggeredTile.extent(2, 250.0), //δευτερη παραμετρος λεει το υψος τους tile/κουτιου  (purple)
-          StaggeredTile.extent(2, 250.0), // (blue)
+          StaggeredTile.extent(2,
+              250.0), // 1η καρτέλα στην λίστα με τα charts (το heart rate chart)
+          StaggeredTile.extent(2,
+              250.0), // 2η καρτέλα στην λίστα με τα charts (το steps/calories chart)
+          StaggeredTile.extent(
+              2, 250.0), // 3η καρτέλα στα charts μου (το sleep chart)
         ],
       ),
       drawer: Drawer(
@@ -152,8 +162,8 @@ class _ChartsPageState extends State<ChartsPage> {
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
-                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => HomePage()));
               },
             ),
             ListTile(
@@ -203,6 +213,7 @@ class _ChartsPageState extends State<ChartsPage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        // To bottom navigation bar μου
         backgroundColor: Colors.blueGrey[50],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
