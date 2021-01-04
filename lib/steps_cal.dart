@@ -13,10 +13,11 @@ class Steps extends StatefulWidget {
 }
 
 class _StepsPageState extends State<Steps> {
-  List<charts.Series<StepsCals, String>> stepsCData = [];
-  List<StepsCals> tmp = [];
-  var myStepcData;
+  List<charts.Series<StepsCals, String>> stepsCData =
+      []; // Αρχικοποίηση λίστας τύπου <charts.Series<StepsCals, String>>
+  List<StepsCals> tmp = []; // Αρχικοποίηση λίστας τύπου <StepsCals>
 
+  // Δημιουργία μιας future συνάρτησης η οποία θα επιστρέφει λίστα τύπου <StepsCals>
   Future<List<StepsCals>> loadCalsStepsData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/cals_step.json');
@@ -24,18 +25,21 @@ class _StepsPageState extends State<Steps> {
     var tagsJson = jsonResponse['activities'];
     setState(() {
       for (Map i in tagsJson) {
-        tmp.add(StepsCals(i['startDate'], i['steps'], i['calories']));
+        tmp.add(StepsCals(i['startDate'], i['steps'],
+            i['calories'])); // Περνάω όλα τα δεδομένα μέσα στην λίστα μου
       }
     });
-    return tmp;
+    return tmp; // Επιστρέφω την λίστα ώστε μετά να πάρω τα δεδομένα της και να τα βάλω στο chart
   }
 
+  // Δημιουργία μιας void συνάρτησης η οποία είναι ασύγχρονη και χρησιμοποιείται ώστε το πρόγραμμα μου να περιμένει πρώτα να πάρει όλα τα δεδομένα και έπειτα να εμφανίσει ότι είναι
   void initData() async {
     this.tmp = await this.loadCalsStepsData();
     stepsCData = _createMyData();
     this.scChart();
   }
 
+  // Συνάρτηση (dynamic) που περιέχει το είδος του chart, το είδος των δεδομένων που θα 'χει το chart, το ότι θα είναι grouped, etc.
   scChart() {
     return charts.BarChart(
       stepsCData,
@@ -43,17 +47,18 @@ class _StepsPageState extends State<Steps> {
       barGroupingType: charts.BarGroupingType.grouped,
       behaviors: [
         new charts.ChartTitle('Steps/Calories', innerPadding: 20),
-       // new charts.SeriesLegend(position: charts.BehaviorPosition.end, outsideJustification: charts.OutsideJustification.middleDrawArea),
       ],
     );
   }
 
+  // Συνάρτηση InitState, παριέχει βασικές συναρτήσεις μέσα που χρειάζονται για να τρέξει ορθά το πρόγραμμα μου
   @override
   void initState() {
     super.initState();
     this.initData();
   }
 
+  // Συνάρτηση είδους <charts.Series<StepsCals, String>> που περιέχει τα δεδομένα του γραφήματος, τι μπαίνει στον άξονα Χ,Υ, το χρώμα , κλπ.
   List<charts.Series<StepsCals, String>> _createMyData() {
     final data = tmp;
     return [
@@ -73,12 +78,13 @@ class _StepsPageState extends State<Steps> {
     ];
   }
 
+  // Widget είδους build που περιέχει τα βασικά μου components όπως appbar, drawer, κλπ.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Steps"),
-        backgroundColor: Colors.green[600], // AppBar Color
+        backgroundColor: Colors.blueGrey[400], // Χρώμα του AppBar
       ),
       drawer: Drawer(
         child: ListView(
@@ -157,6 +163,7 @@ class _StepsPageState extends State<Steps> {
   }
 }
 
+// Δημιουργία κλάσης βάσει των δεδομένων που θέλω να πάρω απο το json (οριζόντιος άξονας έχει τα String dates) (κατακόρυφος άξονας έχει τα int steps και calories)
 class StepsCals {
   String dates;
   int steps;

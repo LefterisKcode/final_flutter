@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:project/profile.dart';
@@ -11,6 +10,7 @@ import 'about.dart';
 import 'charts.dart';
 import 'hearts.dart';
 import 'help.dart';
+import 'steps_chart_panel.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,20 +18,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 0; // 1η θέση του πίνακα που πάει στο homepage
   void _onItemTapped(int index) {
+    // Για να αλλάζει το bottom navigation bar όταν πατάω σε ένα απ' τα 3 options
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex == 1) {
+        // 2η επιλογή του πίνακα που πάει στο page με τα πολλά charts
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => ChartsPage()));
       } else if (_selectedIndex == 2) {
+        // 3η επιλογή του πίνακα που πάει στο page με το help
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HelpPage()));
       }
     });
   }
 
+  // Αρχικοποίηση μεταβλητών που θα χρησιμοποιήσω στα heart rate και steps charts που έχω στο homepage
   double s = 0;
   double c = 0;
   List<double> cdata = [];
@@ -39,6 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   List<double> heartRateValues = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0];
 
+  // Δημιουργία μιας future συνάρτησης που θα παίρνει το json (τις τιμές αυτού) για το heart rate
   Future loadHeartRateData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/heart_rate.json');
@@ -50,10 +55,12 @@ class _HomePageState extends State<HomePage> {
       tmp.add(value.toDouble());
     }
     setState(() {
+      // Αλλάζω τις τιμές που είχα δώσει πριν (στην αρχικοποίηση) με τις σωστές τιμές του Json
       this.heartRateValues = tmp;
     });
   }
 
+  // Δημιουργία μιας future συνάρτησης που θα παίρνει το json (τις τιμές αυτού) για τα steps
   Future loadStepsData() async {
     String jsonString = await DefaultAssetBundle.of(context)
         .loadString('assets/data_repo/cals_step.json');
@@ -65,25 +72,31 @@ class _HomePageState extends State<HomePage> {
       s = j['steps'].toDouble();
       c += j['steps'].toDouble();
     }
-    tmp2.add(s);
-    tmp3.add(8000.0 - s);
+    tmp2.add(
+        s); // To value για το πορτοκαλί κομμάτι του pie chart με τα βήματα της τελευταίας ημέρας
+    tmp3.add(8000.0 -
+        s); // Το value για το γκρι κομμάτι pie chart με τα βήματα που απομένουν για να φτάσουμε στα 8000 (ημερήσιος στόχος)
     setState(() {
-      this.cdata = tmp2;
-      this.cdata2 = tmp3;
+      // Βάζω τις τιμές μέσα στις 2 λίστες που είχα φτιάξει
+      this.cdata = [s];
+      this.cdata2 = [8000.0 - s];
     });
   }
 
+  // Δημιουργία μιας void συνάρτησης η οποία είναι ασύγχρονη και χρησιμοποιείται ώστε το πρόγραμμα μου να περιμένει πρώτα να πάρει όλα τα δεδομένα και έπειτα να εμφανίσει ότι είναι
   void initData() async {
     await this.loadStepsData();
     await this.loadHeartRateData();
   }
 
+  // Void συνάρτηση που περιέχει την InitState η οποία είναι απαραίτητη για το πρόγραμμα
   @override
   void initState() {
     super.initState();
     this.initData();
   }
 
+  // Widget είδους myItems το οποίο περιέχει την υλοποίηση των Sleep και Me που φαίνονται στο homepage
   Widget myItems(IconData icon, String heading, Color color) {
     return Material(
       color: Colors.white,
@@ -122,8 +135,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-//το widgets για να φτιαξουμε το πρωτο γραφημα σε μορφη γραμμης
-  Widget mychart1Items(String title, List<double> heartRateData) {
+// Widget είδους myHeartChart το οποίο περιέχει την υλοποίηση και ότι άλλο χρειάζεται για να εμφανίσω του παλμούς σε chart γραμμής
+  Widget myHeartChart(String title, List<double> heartRateData) {
     return Material(
       color: Colors.white,
       elevation: 14.0,
@@ -156,12 +169,12 @@ class _HomePageState extends State<HomePage> {
                       child: new Sparkline(
                         fallbackHeight: 1,
                         sharpCorners: true,
-                        //το γραφημε σε μορφη γραμμης
+                        // Τα δεδομένα του γραφήματος
                         data:
-                            heartRateData, // τα double δεδομενα που εχουμε δηλωσει στην αρχη
+                            heartRateData, // Τα double data που παίρνουμε απο την εντολή στην γραμμή 59
                         lineColor: Colors.red,
                         pointsMode: PointsMode
-                            .all, //δειχνει τα σημεια με τις τιμες σαν βουλες/points
+                            .all, // Για να εμφανίζει κουκίδα σε κάθε σημείο που έχει πάρει value απο το heart rate
                         pointSize: 7.0,
                       ),
                     )
@@ -175,69 +188,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget myCircularItems(
-      String title, List<double> cdata, List<double> cdata2) {
-    List<CircularStackEntry> circularData = <CircularStackEntry>[
-      new CircularStackEntry(
-        <CircularSegmentEntry>[
-          new CircularSegmentEntry(cdata[0], Colors.orange, rankKey: 'Steps'),
-          new CircularSegmentEntry(cdata2[0], Colors.grey, rankKey: 'Total Steps'),
-        ],
-      ),
-    ];
-
-    return Material(
-      color: Colors.white,
-      elevation: 14.0,
-      borderRadius: BorderRadius.circular(24.0),
-      shadowColor: Colors.purple[200],
-      child: Center(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(2.0),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        width: 130,
-                        height: 240,
-                        child: AnimatedCircularChart(
-                          //το widget που μας δινει το package flutter_circular_chart.dart
-                          size: Size(100.0, 100.0),
-                          initialChartData: circularData,
-                          chartType: CircularChartType.Pie,
-                          holeRadius: 50,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
+  // Widget είδους build που περιέχει τα βασικά κομμάτια , όπως υλοποίηση του Dashboard
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // Δημιουργία του AppBar που περιέχει τον drawer και τον τίτλο της σελίδας
         backgroundColor: Colors.blueGrey[400],
         title: Text(
           "Dashboard",
@@ -255,7 +211,8 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.symmetric(horizontal: 17.0, vertical: 10.0),
         children: <Widget>[
           InkWell(
-            child: mychart1Items("Heart Rate", this.heartRateValues),
+            // Καρτέλα με το chart του heart rate
+            child: myHeartChart("Heart Rate", this.heartRateValues),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Heart()));
@@ -264,7 +221,8 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
-            child: myCircularItems("Steps", this.cdata, this.cdata2),
+            // Καρτέλα με το pie chart των steps
+            child: StepsChartPanel(),
             onTap: () {
               Navigator.push(
                   context, MaterialPageRoute(builder: (context) => Steps()));
@@ -273,6 +231,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
+            // Καρτέλα με το 'Me' το οποίο μας πάει στο προφίλ
             child: myItems(Icons.account_box_rounded, "Me", Colors.blueGrey),
             onTap: () {
               Navigator.push(
@@ -282,6 +241,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(25.0)),
           ),
           InkWell(
+            // Καρτέλα με το 'Sleep' το οποίο μας πάει στο chart με τα sleep values
             child: myItems(Icons.airline_seat_individual_suite_rounded, "Sleep",
                 Colors.blueGrey),
             onTap: () {
@@ -289,28 +249,32 @@ class _HomePageState extends State<HomePage> {
                   context, MaterialPageRoute(builder: (context) => Sleep()));
             },
             customBorder: RoundedRectangleBorder(
+                // Για να στρογγυλέψω τις γωνίες των καρτελών μου
                 borderRadius: BorderRadius.circular(25.0)),
           ),
         ],
         staggeredTiles: [
           //οσα αντικειμενα βαλαμε στο children τοσα πρεπει να βαλουμε και εδω
           StaggeredTile.extent(2,
-              250.0), //η πρωτη παραμετρος λεει ποσες στηλες να καλυπτει το tile/κουτι (orange)
+              250.0), //η πρωτη παραμετρος λεει ποσες στηλες να καλυπτει το tile/κουτι (heartRate chart)
           StaggeredTile.extent(1,
-              350.0), //δευτερη παραμετρος λεει το υψος τους tile/κουτιου  (purple)
-          StaggeredTile.extent(1, 163.0),
-          StaggeredTile.extent(1, 163.0),
+              350.0), //δευτερη παραμετρος λεει το υψος τους tile/κουτιου  (Steps chart)
+          StaggeredTile.extent(1, 163.0), // (Me chart)
+          StaggeredTile.extent(1, 163.0), // (Sleep chart)
         ],
       ),
       drawer: Drawer(
+        // Δημιουργία του drawer
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
+              // Δημιουργία του drawer header
               decoration: BoxDecoration(
                 color: Colors.blueGrey[400],
               ),
               child: Text(
+                // Τίτλος του drawer
                 'Health',
                 style: TextStyle(
                   color: Colors.white,
@@ -320,6 +284,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             ListTile(
+              // 1o item μέσα στον drawer (home)
               leading: Icon(Icons.home),
               title: Text('Home'),
               onTap: () {
@@ -327,6 +292,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 2o item μέσα στον drawer (heart rate)
               leading: Icon(Icons.favorite, color: Colors.redAccent),
               title: Text('Heart Rate'),
               onTap: () {
@@ -335,6 +301,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 3o item μέσα στον drawer (steps)
               leading:
                   Icon(Icons.directions_run_rounded, color: Colors.green[600]),
               title: Text('Steps'),
@@ -344,6 +311,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 4o item μέσα στον drawer (sleep)
               leading: Icon(Icons.airline_seat_individual_suite_rounded,
                   color: Colors.purple[300]),
               title: Text('Sleep'),
@@ -353,6 +321,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 5o item μέσα στον drawer (demographics)
               leading:
                   Icon(Icons.account_circle_rounded, color: Colors.blueAccent),
               title: Text('Demographics'),
@@ -362,6 +331,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              // 6o item μέσα στον drawer (about us)
               leading: Icon(Icons.info, color: Colors.black),
               title: Text('About Us'),
               onTap: () {
@@ -373,6 +343,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        // Δημιουργία του bottom navigation bar (το οποίο περιέχει τις επιλογές Home / Charts / Help)
         backgroundColor: Colors.blueGrey[50],
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

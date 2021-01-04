@@ -4,9 +4,10 @@ import './homepage.dart';
 void main() {
   runApp(MaterialApp(
     title: 'Multiple screens',
-    initialRoute: '/homepage',
+    initialRoute:
+        '/homepage', // Deixnei poia tha einai i selida pou tha deixnei me to pou ksekinaei to programma
     routes: {
-      '/homepage': (context) => HomePage(), // Μονοπατι για HomePage
+      '/homepage': (context) => HomePage(), // Monopati gia to HomePage
     },
   ));
 }
