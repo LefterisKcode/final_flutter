@@ -27,7 +27,7 @@ class _SleepPageState extends State<Sleep> {
     setState(() {
       for (Map i in tagsJson) {
         tmp.add(Sleeps(i['dateOfSleep'],
-            i['minutes'])); // Περνάω μέσα στην λίστα μου τα δεδομένα που πήρα απο το json
+            ((i['milliseconds'])/60000).round())); // Περνάω μέσα στην λίστα μου τα δεδομένα που πήρα απο το json και τα μετατρέπω σε minutes
       }
     });
     return tmp; // Επιστρέφω την λίστα tmp για να την χρησιμοποιήσω μέσα στα chart

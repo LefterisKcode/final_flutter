@@ -35,12 +35,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // Αρχικοποίηση μεταβλητών που θα χρησιμοποιήσω στα heart rate και steps charts που έχω στο homepage
-  double s = 0;
-  double c = 0;
-  List<double> cdata = [];
-  List<double> cdata2 = [];
-
+  // Αρχικοποίηση μεταβλητών (λίστας) που θα χρησιμοποιήσω στα heart rate που έχω στο homepage
   List<double> heartRateValues = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 2.0];
 
   // Δημιουργία μιας future συνάρτησης που θα παίρνει το json (τις τιμές αυτού) για το heart rate
@@ -60,32 +55,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // Δημιουργία μιας future συνάρτησης που θα παίρνει το json (τις τιμές αυτού) για τα steps
-  Future loadStepsData() async {
-    String jsonString = await DefaultAssetBundle.of(context)
-        .loadString('assets/data_repo/cals_step.json');
-    final jsonResponse = json.decode(jsonString);
-    var tagsJson = jsonResponse['activities'];
-    List<double> tmp2 = [];
-    List<double> tmp3 = [];
-    for (Map j in tagsJson) {
-      s = j['steps'].toDouble();
-      c += j['steps'].toDouble();
-    }
-    tmp2.add(
-        s); // To value για το πορτοκαλί κομμάτι του pie chart με τα βήματα της τελευταίας ημέρας
-    tmp3.add(8000.0 -
-        s); // Το value για το γκρι κομμάτι pie chart με τα βήματα που απομένουν για να φτάσουμε στα 8000 (ημερήσιος στόχος)
-    setState(() {
-      // Βάζω τις τιμές μέσα στις 2 λίστες που είχα φτιάξει
-      this.cdata = [s];
-      this.cdata2 = [8000.0 - s];
-    });
-  }
-
   // Δημιουργία μιας void συνάρτησης η οποία είναι ασύγχρονη και χρησιμοποιείται ώστε το πρόγραμμα μου να περιμένει πρώτα να πάρει όλα τα δεδομένα και έπειτα να εμφανίσει ότι είναι
   void initData() async {
-    await this.loadStepsData();
     await this.loadHeartRateData();
   }
 

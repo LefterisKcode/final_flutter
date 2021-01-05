@@ -2,31 +2,31 @@
     "sleep": [
         {
             "dateOfSleep": 1,
-            "minutes": 120
+            "milliseconds": 720000
         },
         {
             "dateOfSleep": 2,
-            "minutes": 160
+            "milliseconds": 1020000
         },
         {
             "dateOfSleep": 3,
-            "minutes": 140
+            "milliseconds": 780000
         },
         {
             "dateOfSleep": 4,
-            "minutes": 120
+            "milliseconds": 1260000
         },
         {
             "dateOfSleep": 5,
-            "minutes": 180
+            "milliseconds": 480000
         },
         {
             "dateOfSleep": 6,
-            "minutes": 80
+            "milliseconds": 660000
         },
         {
             "dateOfSleep": 7,
-            "minutes": 130
+            "milliseconds": 720000
         }
     ]
 }
