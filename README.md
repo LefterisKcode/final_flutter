@@ -1,6 +1,6 @@
 # project
 
-A new Flutter project.
+Android app project
 
 ## Getting Started
 
